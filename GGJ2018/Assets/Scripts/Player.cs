@@ -6,6 +6,7 @@ public class Player : MonoBehaviour {
     private Rigidbody rb;
 	public int speed = 10;
 	public int drag = 7;
+	public Transform sight;
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody>();
@@ -21,11 +22,25 @@ public class Player : MonoBehaviour {
 	}
 
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		float moveHorizontal = Input.GetAxis ("Horizontal");
         float moveVertical = Input.GetAxis ("Vertical");
-        Vector3 movement = new Vector3 (moveHorizontal, moveVertical, 0.0f);
 
+		
+        Vector3 movement = new Vector3 (moveHorizontal, moveVertical, 0.0f);
+		
         rb.AddForce (movement * speed);
+		
+		transform.LookAt(sight, new Vector3(0, 0, -1));
+	}
+
+	void Fire() {
+
+	}
+
+	void Update() {
+		if (Input.GetAxis ("Fire1") != 0) {
+			Fire();
+		}
 	}
 }

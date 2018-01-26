@@ -23,7 +23,6 @@ public class mapGenerator : MonoBehaviour {
 		for (int w = -1; w < width + 1; w++) {
 			for (int h = -1; h < height + 1; h++) {
 				float number = Random.Range(0, 100) / 100f;
-				Debug.Log(number);
 				Transform toPut = null;
 				if (number <= fullRate || w < 0 || h < 0 || w == width || h == height) {
 					toPut = fullBlock;
