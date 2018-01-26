@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour {
+public class ScriptEnemy : MonoBehaviour {
 
 	// Use this for initialization
 	public float moveSpeed = 5.0f;
