@@ -35,3 +35,6 @@ sysinfo.txt
 *.unitypackage
 GGJ2018/Temp/UnityLockfile
 GGJ2018/Temp/
+/GGJ2018/Library/
+/Library/
+GGJ2018/Library/*

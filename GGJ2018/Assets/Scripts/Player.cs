@@ -5,9 +5,11 @@ using UnityEngine;
 public class Player : MonoBehaviour {
     private Rigidbody rb;
 	public int speed = 10;
+	public int drag = 7;
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody>();
+		rb.drag = drag;
 		SetSpawnPos();
 	}
 	
@@ -22,8 +24,6 @@ public class Player : MonoBehaviour {
 	void Update () {
 		float moveHorizontal = Input.GetAxis ("Horizontal");
         float moveVertical = Input.GetAxis ("Vertical");
-		Debug.Log(moveHorizontal);
-		Debug.Log(moveVertical);
         Vector3 movement = new Vector3 (moveHorizontal, moveVertical, 0.0f);
 
         rb.AddForce (movement * speed);
