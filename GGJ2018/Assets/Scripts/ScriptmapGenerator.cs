@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class mapGenerator : MonoBehaviour {
+public class ScriptmapGenerator : MonoBehaviour {
 	public int height = 9;
 	public int width = 16;
 	public float fullRate = 0.1f;

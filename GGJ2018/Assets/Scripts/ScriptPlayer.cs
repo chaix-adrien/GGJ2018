@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour {
+public class ScriptPlayer : MonoBehaviour {
     private Rigidbody rb;
 	public int speed = 10;
 	public int drag = 7;
