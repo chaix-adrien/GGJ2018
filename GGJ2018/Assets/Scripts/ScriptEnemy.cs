@@ -119,13 +119,12 @@ public class ScriptEnemy : MonoBehaviour
     }
 
     void Update()  {
-        if (enemyType == EnemyType.TARGETING)
-        {
-
-            Debug.Log(GetComponent<Renderer>().material);
+        if (enemyType == EnemyType.TARGETING) {
             Color color = target.GetComponent<ScriptPlayer>().color;
+            
+            Debug.Log(GetComponent<Renderer>().material);
             GetComponent<Renderer>().material.SetColor("Albedo", color);
         }
-
+        
     }
 }

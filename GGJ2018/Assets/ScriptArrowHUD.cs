@@ -47,7 +47,6 @@ public class ScriptArrowHUD : MonoBehaviour {
 			lastTime = Time.time;
 		} else if (Time.time - lastTime > 1) {
 			lastTime = Time.time;
-			Debug.Log("hide");
 			img.color = new Color(0, 0, 0, 0);
 		}
 		lastScore = actScore;
