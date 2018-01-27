@@ -24,7 +24,6 @@ public class ScriptPlayer : MonoBehaviour {
 	void SetSpawnPos() {
 		var emptys = GameObject.FindGameObjectsWithTag("EmptyFloor");
 		Vector3 pos = emptys[Random.Range(0, emptys.Length)].transform.position;
-		transform.SetParent(GameObject.FindGameObjectWithTag("Map").transform);
 		transform.position = new Vector3(pos.x, pos.y, -1f);
 	}
 

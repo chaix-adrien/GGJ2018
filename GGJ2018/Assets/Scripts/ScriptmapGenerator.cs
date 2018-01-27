@@ -14,12 +14,10 @@ public class ScriptmapGenerator : MonoBehaviour {
 
 	
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		//Delete all child object (reset map)
-		mainCamera.orthographicSize = 5f/9f*height;
-		foreach (Transform child in gameObject.transform) {
-     		GameObject.Destroy(child.gameObject);
- 		}
+//		mainCamera.orthographicSize = 5f/9f*height;
+		
 		
 		//generate new map
 		for (int w = -1; w < width + 1; w++) {
