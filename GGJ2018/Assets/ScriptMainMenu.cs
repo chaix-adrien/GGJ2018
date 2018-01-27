@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using GamepadInput;
 using System.Linq;
+
 public class ScriptMainMenu : MonoBehaviour {
 
 	private Button startButton;
@@ -12,6 +13,9 @@ public class ScriptMainMenu : MonoBehaviour {
 	private GamePad.Index?[] gamepads = {null, null, null, null};
 	private bool[] gamepadIsRegistered = {false, false, false, false};
 	int playersReadyCount = 0;
+	public int minPlayer = 2;
+	public Color[] playerColors;
+
 
 	void Start() {
 		startButton = GetComponentInChildren<Button>();
@@ -20,6 +24,7 @@ public class ScriptMainMenu : MonoBehaviour {
 		toggles[2] = GameObject.FindWithTag("Player3Toggle").GetComponent<Toggle>();
 		toggles[3] = GameObject.FindWithTag("Player4Toggle").GetComponent<Toggle>();
 		startButton.onClick.AddListener(LoadLevel);
+		ScriptGameOptions.playerColors = playerColors;
 	}
 
 	void FixedUpdate() {
@@ -50,7 +55,7 @@ public class ScriptMainMenu : MonoBehaviour {
 	}
 
 	void LoadLevel() {
-		if (playersReadyCount >= 2) {
+		if (playersReadyCount >= minPlayer) {
 			ScriptGameOptions.playersNumber = playersReadyCount;
 			ScriptGameOptions.gamepads = gamepads;
 			SceneManager.LoadScene("Game");

@@ -8,7 +8,7 @@ public class MoveTarget : MonoBehaviour {
   	public Transform player;
 	
 	// Use this for initialization
-	void Awake () {
+	void Start () {
 		GetComponent<SpriteRenderer>().color = player.gameObject.GetComponent<ScriptPlayer>().color;
 	}
 	

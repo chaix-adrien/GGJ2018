@@ -8,21 +8,23 @@ public class ScriptSetupGame : MonoBehaviour {
 	public GameObject ball;
 	public float playerZ;
 	private GamePad.Index?[] gamepads;
+	public Color[] playerColors;
+
 	void Awake() {
-		List<GameObject> spawns = new List<GameObject>(GameObject.FindGameObjectsWithTag("EmptyFloor"));
 		gamepads = ScriptGameOptions.gamepads;
-		for (int i = 0; i < 4; ++i) {
+		Debug.Log(gamepads);
+		GameObject newBall = Instantiate(ball, new Vector3(0, 0, 0), Quaternion.identity);
+		for (int i = 0; i < gamepads.Length; ++i) {
 			if (gamepads[i] != null) {
-				Debug.Log(spawns.Count);
-				GameObject spawn = spawns[Random.Range(0, spawns.Count)] as GameObject;
-				Vector3 position = spawn.transform.position;
-				GameObject newPlayer = Instantiate(player, new Vector3(position.x, position.y, playerZ), Quaternion.identity);
+				GameObject newPlayer = Instantiate(player, new Vector3(0, 0, 0), Quaternion.identity);
+				newPlayer.GetComponent<ScriptPlayer>().color = ScriptGameOptions.playerColors[i];
+				newPlayer.GetComponent<ScriptPlayerHUD>().top = i < 2;
+				newPlayer.GetComponent<ScriptPlayerHUD>().left = i % 2 == 0;
+				newPlayer.GetComponent<ScriptPlayer>().ball = newBall.transform;
 				newPlayer.GetComponent<ScriptPlayer>().gamepad = (GamePad.Index)gamepads[i];
-				spawns.Remove(spawn);
+				newPlayer.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+
 			}
 		}
-		GameObject ballSpawn = spawns[Random.Range(0, spawns.Count)] as GameObject;
-		Vector3 ballPosition = ballSpawn.transform.position;
-		GameObject newBall = Instantiate(ball, new Vector3(ballPosition.x, ballPosition.y, playerZ), Quaternion.identity);
 	}
 }

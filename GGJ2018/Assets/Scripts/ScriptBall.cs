@@ -12,9 +12,10 @@ public class ScriptBall : MonoBehaviour {
 	}
 	
 	void SetSpawnPos() {
+		transform.SetParent(GameObject.FindGameObjectWithTag("Map").transform);
 		var emptys = GameObject.FindGameObjectsWithTag("EmptyFloor");
 		Vector3 pos = emptys[Random.Range(0, emptys.Length)].transform.position;
-		
+		transform.position = new Vector3(pos.x, pos.y, -1);
 		
 	}
 
