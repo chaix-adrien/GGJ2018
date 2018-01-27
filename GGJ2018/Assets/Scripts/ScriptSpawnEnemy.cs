@@ -24,9 +24,9 @@ public class ScriptSpawnEnemy : MonoBehaviour
         
     }
 
-    void SpawnEnemy()
+   void SpawnEnemy()
     {
-		GameObject[] respawns;
+        GameObject[] respawns;
         GameObject player;
         float playerZ;
         Vector3 position;
@@ -35,23 +35,33 @@ public class ScriptSpawnEnemy : MonoBehaviour
         respawns = GameObject.FindGameObjectsWithTag("EmptyFloor");
 
         player = GameObject.FindGameObjectWithTag("Player");
-        
+
         playerZ = GameObject.FindGameObjectWithTag("Player").transform.position.z;
-        
+
         // Spawn an amount of enemies (numberOfEnemy) randomly on the map
-		for(int i = 0; i < numberOfEnemy; i++)
-		{
+        for (int i = 0; i < numberOfEnemy; i++)
+        {
+            // Get a random position map
+            position = (respawns.GetValue(Random.Range(0, respawns.Length)) as GameObject).transform.position;
             // Check if there's no game object "Player" on position
-			position = (respawns.GetValue( Random.Range(0, respawns.Length))  as GameObject).transform.position;
-            while(position == player.transform.position)
+            Collider[] hitColliders = Physics.OverlapSphere(player.transform.position, 2);
+            foreach (Collider collider in hitColliders)
             {
-                position = (respawns.GetValue( Random.Range(0, respawns.Length))  as GameObject).transform.position;
+                if(position == collider.transform.position)
+                {
+
+                }
+            }
+
+            
+            while (position == player.transform.position)
+            {
+                position = (respawns.GetValue(Random.Range(0, respawns.Length)) as GameObject).transform.position;
             }
 
             position.z = playerZ;
-			
-			Instantiate(enemy, position, Quaternion.identity);		
-		}
-       
+
+            Instantiate(enemy, position, Quaternion.identity);
+        }
     }
 }
