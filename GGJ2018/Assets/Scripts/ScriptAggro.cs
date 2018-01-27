@@ -4,8 +4,16 @@ using UnityEngine;
 
 public class ScriptAggro : MonoBehaviour {
 	public int aggro = 10;
-	public int increaseAggro = 5;
+    public int decreaseAggro = 5;
+    public int increaseAggro = 5;
+    public int minAggro = 10;
+    public int maxAggro = 100;
+    public bool decreasing = false;
+    public bool increasing = true;
+    
 	public float aggroInterval = 1.0f;
+
+
 	private float elapsed;
 	// Use this for initialization
 	void Start () {
@@ -19,23 +27,26 @@ public class ScriptAggro : MonoBehaviour {
         if (elapsed >= aggroInterval)
         {
 			elapsed = elapsed % aggroInterval;
-            bool hasObject = false;
-            if (hasObject && aggro < 100)
-            {
-                aggro += increaseAggro;
-                if (!hasObject && aggro > 10)
-                {
-                    aggro -= increaseAggro;
-                }
-            }
+                if (increasing)
+                    aggro += increaseAggro;
+                if (aggro > maxAggro)
+                    aggro = maxAggro;
+                if (decreasing)
+                    aggro -= decreaseAggro;
+                if (aggro < minAggro)
+                    aggro = minAggro;
         }
     }
 	public int addAggro(int addedAggro){
-		if (addedAggro+ aggro > 100) {
-			aggro = 100;
-		} else {
-			aggro+=addedAggro;
-		}
+		aggro += addedAggro;
+        if (aggro > maxAggro)
+            aggro = maxAggro;
+        if (aggro < minAggro)
+            aggro = minAggro;
+		return(aggro);
+	}
+    public int reduceAggro(int subAggro){
+		addAggro(subAggro);
 		return(aggro);
 	}
 }

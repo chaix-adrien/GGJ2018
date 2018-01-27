@@ -7,11 +7,12 @@ public class ScriptScore : MonoBehaviour {
 	private float elapsed;
 	public int score;
 	public float scoreImplementInterval = 1.0f;
-	public Text scoreText;
+	public string scoreText = "";
 	private int death = 0;
+	private GameObject ball;
 	// Use this for initialization
 	void Start () {
-		
+		ball = GameObject.FindGameObjectWithTag("Ball");
 	}
 	
 	// Update is called once per frame
@@ -20,16 +21,22 @@ public class ScriptScore : MonoBehaviour {
         if (elapsed >= scoreImplementInterval)
         {
 			elapsed = elapsed % scoreImplementInterval;
-			bool hasObject = GetComponent<ScriptPlayer>().hasObject;
+			bool hasObject = ball.GetComponent<ScriptBall>().player == gameObject;
 			if (hasObject){
-				score+=10;
+				score += ball.GetComponent<ScriptAggro>().aggro;
 			}
-			int deathPlayer = GetComponent<ScriptPlayer>().death;
+			int deathPlayer = 0;
 			if (death>deathPlayer){
 				score -= 100;
 			}
 		}
-		scoreText.text = "Score: " + scoreText.ToString();
+		scoreText = "Score: " + score.ToString();
+		Debug.Log(scoreText);
 		
+	}
+	public void DecreaseScore(int decrease) {
+		score -= decrease;
+		if (score < 0)
+			score = 0;
 	}
 }

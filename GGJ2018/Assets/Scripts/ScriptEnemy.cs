@@ -16,9 +16,10 @@ public class ScriptEnemy : MonoBehaviour
     public float normalMoveSpeed = 5.0f;
     public float targetingMoveSpeed = 10.0f;
     public string targetTag = "Player";
+    public int hitDamage = 100;
     private GameObject[] players;
 
-    private Transform target = null;
+    public Transform target = null;
     private Rigidbody rb = null;
 	private float elapsed = 0f;
     void Awake() {
@@ -105,4 +106,21 @@ public class ScriptEnemy : MonoBehaviour
         }
         return players[result];
 	}
+    void OnCollisionEnter(Collision collision) {
+        if (collision.collider.tag == "Player") {
+            TuchPlayer(collision.gameObject);
+        } else if (collision.collider.tag == "Ball") {
+            TuchPlayer(collision.gameObject);
+        }
+    }
+
+    void TuchPlayer(GameObject player) {
+        player.GetComponent<ScriptScore>().DecreaseScore(hitDamage);
+        Destroy(gameObject);
+    }
+
+    void TuchBall(GameObject ball) {
+        ball.GetComponent<ScriptAggro>().reduceAggro(hitDamage);
+        Destroy(gameObject);
+    }
 }
