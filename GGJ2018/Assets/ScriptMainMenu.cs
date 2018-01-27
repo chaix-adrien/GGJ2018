@@ -4,11 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using GamepadInput;
+using System.Linq;
 public class ScriptMainMenu : MonoBehaviour {
 
 	private Button startButton;
 	private Toggle[] toggles = new Toggle[4];
-	private GamePad.Index[] gamepads = new GamePad.Index[4];
+	private GamePad.Index?[] gamepads = {null, null, null, null};
 	private bool[] gamepadIsRegistered = {false, false, false, false};
 	int playersReadyCount = 0;
 
@@ -22,13 +23,27 @@ public class ScriptMainMenu : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
+		if (GamePad.GetButton(GamePad.Button.Start, GamePad.Index.Any)) {
+			LoadLevel();
+			
+		}
+		if (GamePad.GetButton(GamePad.Button.Back, GamePad.Index.Any)) {
+			foreach (var toggle in toggles) {
+				toggle.isOn = false;
+			}
+			gamepadIsRegistered = Enumerable.Repeat<bool>(false, 4).ToArray();
+			playersReadyCount = 0;
+			gamepads = Enumerable.Repeat<GamePad.Index?>(null, 4).ToArray();
+		}
 		if (playersReadyCount < 4 && GetButtonA(0)) {
 			for (int i = 0; i < 4; i++) {
-				if (!gamepadIsRegistered[i] && GetButtonA(i+1)) {
-					gamepadIsRegistered[i] = true;
-					gamepads[playersReadyCount] = (GamePad.Index)(i+1);
-					toggles[playersReadyCount].isOn = true;
-					playersReadyCount++;
+				if (GetButtonA(i+1)) {
+					if (!gamepadIsRegistered[i]) {
+						gamepadIsRegistered[i] = true;
+						gamepads[playersReadyCount] = (GamePad.Index)(i+1);
+						toggles[playersReadyCount].isOn = true;
+						playersReadyCount++;
+					}
 				}
 			}
 		}
