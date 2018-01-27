@@ -19,7 +19,7 @@ public class ScriptInc : MonoBehaviour {
 	}
 
 	void  OnTriggerEnter (Collider collision) {
-		if (collision.tag == "Player") {
+		if (collision.tag == "Player" && collision.gameObject.transform != fromPlayer) {
 			collision.gameObject.GetComponent<ScriptAggro>().reduceAggro(aggroAtHit);
 		}
 		if (collision.tag == "Enemy") {

@@ -18,7 +18,7 @@ public class ScriptBlood : MonoBehaviour {
 	}
 
 	void  OnTriggerEnter (Collider collision) {
-		if (collision.tag == "Player") {
+		if (collision.tag == "Player" && fromPlayer != collision.gameObject.transform) {
 			collision.gameObject.GetComponent<ScriptAggro>().addAggro(aggroAtHit);
 		}
 		if (collision.tag == "Enemy") {

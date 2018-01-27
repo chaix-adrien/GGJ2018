@@ -43,7 +43,7 @@ public class ScriptEnemy : MonoBehaviour
 			}
 			if (enemyType == EnemyType.TARGETING) {
 				var agroLevel = 100;
-				if (Random.value < targetingTypeChangeProb + targetingProbAgroBonus*(100 - agroLevel)/100) {
+				if (Random.value < targetingTypeChangeProb + targetingProbAgroBonus * (100 - agroLevel) / 100) {
 					target = GetRandomPlayerByAgro(players).transform;
 				}
 			}
@@ -110,8 +110,6 @@ public class ScriptEnemy : MonoBehaviour
     void OnCollisionEnter(Collision collision) {
         if (collision.collider.tag == "Player") {
             TuchPlayer(collision.gameObject);
-        } else if (collision.collider.tag == "Ball") {
-            TuchPlayer(collision.gameObject);
         }
     }
 
@@ -120,8 +118,13 @@ public class ScriptEnemy : MonoBehaviour
         Destroy(gameObject);
     }
 
-    void TuchBall(GameObject ball) {
-        ball.GetComponent<ScriptAggro>().reduceAggro(hitDamage);
-        Destroy(gameObject);
+    void Update()  {
+        if (enemyType == EnemyType.TARGETING) {
+            Color color = target.GetComponent<ScriptPlayer>().color;
+            
+            Debug.Log(GetComponent<Renderer>().material);
+            GetComponent<Renderer>().material.SetColor("Albedo", color);
+        }
+        
     }
 }
