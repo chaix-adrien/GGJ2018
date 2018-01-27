@@ -21,8 +21,8 @@ public class ScriptLaunchedProjectile : MonoBehaviour {
 
 	public void launch() {
 		transform.localEulerAngles = rotation;
-		transform.Rotate(new Vector3(90, 0, 0));
-		rb.AddForce(direction * speed);
+		//transform.Rotate(new Vector3(90, 0, 0));
+		rb.AddForce(direction.normalized * speed);
 	}
 
 	void  OnTriggerEnter (Collider collision) {

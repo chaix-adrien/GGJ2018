@@ -14,12 +14,14 @@ public class ScriptPlayer : MonoBehaviour {
 	public float relaodSecond = 1.0f;
 	private float lastShoot = 0.0f;
 	public GamePad.Index gamepad;
+
+	public Color color;
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		rb = GetComponent<Rigidbody>();
 		rb.drag = drag;
-		Debug.Log("Spawn");
 		SetSpawnPos();
+		GetComponent<SpriteRenderer>().color = color;
 	}
 	
 	void SetSpawnPos() {
@@ -36,8 +38,10 @@ public class ScriptPlayer : MonoBehaviour {
 	void MoveController() {
 		Vector2 move = GamePad.GetAxis(GamePad.Axis.LeftStick, gamepad);
         Vector3 movement = new Vector3 (move.x, move.y, 0.0f);
-        rb.AddForce (movement * speed);
-		transform.LookAt(sight, new Vector3(0, 0, 1));
+        rb.AddForce(movement * speed);
+		float angle = Vector3.SignedAngle(new Vector3(0, 1, 0), sight.transform.position - transform.position, new Vector3(0, 0, 1));
+		transform.localEulerAngles = new Vector3(0, 0, angle);
+
 		transform.position = new Vector3(transform.position.x, transform.position.y, -1f);
 	}
 
@@ -59,6 +63,9 @@ public class ScriptPlayer : MonoBehaviour {
 	}
 
 	void Fire(Transform projectile, bool Instanciate) {
+		Vector3 direction = sight.transform.position - transform.position;
+		if (direction == Vector3.zero)
+			return;
 		Transform createdProjectile = null;
 		if (Instanciate) {
 			createdProjectile = Instantiate(projectile, transform.position, transform.rotation);
@@ -74,7 +81,7 @@ public class ScriptPlayer : MonoBehaviour {
 			createdProjectile.GetComponent<ScriptBlood>().fromPlayer = transform;
 		var script = createdProjectile.GetComponent<ScriptLaunchedProjectile>();
 		script.rotation = transform.localEulerAngles;
-		script.direction = sight.transform.position - transform.position;
+		script.direction = direction;
 		Debug.Log(createdProjectile.transform.rotation);
 		script.launch();
 		

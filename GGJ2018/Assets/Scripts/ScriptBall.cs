@@ -5,18 +5,15 @@ using UnityEngine;
 public class ScriptBall : MonoBehaviour {
 	public GameObject player = null;
 	public float rotateSpeed = 1.0f;
-	private Vector3 scale;
 	// Use this for initialization
 	void Awake () {
 		SetSpawnPos();	
-		scale = transform.localScale;
 	}
 	
 	void SetSpawnPos() {
 		var emptys = GameObject.FindGameObjectsWithTag("EmptyFloor");
 		Vector3 pos = emptys[Random.Range(0, emptys.Length)].transform.position;
 		
-		transform.position = new Vector3(pos.x, pos.y, -1);
 		
 	}
 
@@ -29,7 +26,6 @@ public class ScriptBall : MonoBehaviour {
 		
 		if (player) {
 			transform.RotateAround(player.transform.position, new Vector3(0, 0, -1), rotateSpeed * Time.deltaTime);
-			transform.localScale = scale * 2 + scale * Mathf.Abs(Mathf.Sin(Time.time));
 		}
 	}
 
@@ -54,7 +50,6 @@ public class ScriptBall : MonoBehaviour {
 	public void launch() {
 		GetComponent<Rigidbody>().isKinematic = false;
 		transform.localPosition = new Vector3(0, 0, 1.3f);
-		transform.localScale = scale * 2;
 		transform.parent = GameObject.FindGameObjectWithTag("Map").transform;
 		player.GetComponent<ScriptAggro>().aggro = GetComponent<ScriptAggro>().aggro;
 		GetComponent<ScriptAggro>().decreasing = true;
