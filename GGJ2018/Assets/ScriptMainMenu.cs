@@ -4,64 +4,48 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using GamepadInput;
+using System.Linq;
+
 public class ScriptMainMenu : MonoBehaviour {
 
 	private Button startButton;
-	private Toggle[] toggles = new Toggle[4];
-	private GamePad.Index[] gamepads = new GamePad.Index[4];
-	private bool[] gamepadIsRegistered = {false, false, false, false};
+	public GameObject[] toggles;
+	private GamePad.Index[] gamepads = {GamePad.Index.One, GamePad.Index.Two, GamePad.Index.Three, GamePad.Index.Four};
+	private GamePad.Index?[] gamepadIsRegistered = {null, null, null, null};
 	int playersReadyCount = 0;
+	public int minPlayer = 2;
+	public Color[] playerColors;
+
 
 	void Start() {
-		startButton = GetComponentInChildren<Button>();
-		toggles[0] = GameObject.FindWithTag("Player1Toggle").GetComponent<Toggle>();
-		toggles[1] = GameObject.FindWithTag("Player2Toggle").GetComponent<Toggle>();
-		toggles[2] = GameObject.FindWithTag("Player3Toggle").GetComponent<Toggle>();
-		toggles[3] = GameObject.FindWithTag("Player4Toggle").GetComponent<Toggle>();
-		startButton.onClick.AddListener(LoadLevel);
+		ScriptGameOptions.playerColors = playerColors;
 	}
 
 	void FixedUpdate() {
-		if (playersReadyCount < 4 && GetButtonA(0)) {
-			for (int i = 0; i < 4; i++) {
-				if (!gamepadIsRegistered[i] && GetButtonA(i+1)) {
-					gamepadIsRegistered[i] = true;
-					gamepads[playersReadyCount] = (GamePad.Index)(i+1);
-					toggles[playersReadyCount].isOn = true;
-					playersReadyCount++;
-				}
+		if (GamePad.GetButton(GamePad.Button.Start, GamePad.Index.Any)) {
+			LoadLevel();
+		}
+		for (int i = 0; i < 4; i++) {
+			if (GamePad.GetButton(GamePad.Button.B, gamepads[i]) && gamepadIsRegistered[i] != null) {
+				gamepadIsRegistered[i] = null;
+				toggles[i].SetActive(false);
+				playersReadyCount--;
+			}
+		}
+		for (int i = 0; i < 4; i++) {
+			if (GamePad.GetButton(GamePad.Button.A, gamepads[i]) && gamepadIsRegistered[i] == null) {
+				gamepadIsRegistered[i] = gamepads[i];
+				toggles[i].SetActive(true);
+				playersReadyCount++;
 			}
 		}
 	}
 
 	void LoadLevel() {
-		if (playersReadyCount >= 2) {
+		if (playersReadyCount >= minPlayer) {
 			ScriptGameOptions.playersNumber = playersReadyCount;
-			ScriptGameOptions.gamepads = gamepads;
+			ScriptGameOptions.gamepads = gamepadIsRegistered;
 			SceneManager.LoadScene("Game");
 		}
-	}
-
-	bool GetButtonA(int index) {
-		GamePad.Index gamepadIndex;
-		switch (index) {
-			case 1:
-			gamepadIndex = GamePad.Index.One;
-			break;
-			case 2:
-			gamepadIndex = GamePad.Index.Two;
-			break;
-			case 3:
-			gamepadIndex = GamePad.Index.Three;
-			break;
-			case 4:
-			gamepadIndex = GamePad.Index.Four;
-			break;
-			case 0:
-			default:
-			gamepadIndex = GamePad.Index.Any;
-			break;
-		}
-		return GamePad.GetButton(GamePad.Button.A, gamepadIndex);
 	}
 }

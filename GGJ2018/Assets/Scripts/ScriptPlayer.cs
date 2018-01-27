@@ -11,25 +11,30 @@ public class ScriptPlayer : MonoBehaviour {
 	public Transform inc;
 	public Transform blood;
 	public Transform ball;
+
 	public float relaodSecond = 1.0f;
 	private float lastShoot = 0.0f;
 	public GamePad.Index gamepad;
 
 	public Animator anim;
+
 	public Color color;
 	// Use this for initialization
-	void Awake () {
+	void Start () {
 		rb = GetComponent<Rigidbody>();
 		rb.drag = drag;
 		SetSpawnPos();
 		GetComponent<SpriteRenderer>().color = color;
 		anim=GetComponent<Animator>();
+		sight = Instantiate(sight, new Vector3(0, 0, 0), Quaternion.identity);
+		sight.GetComponent<MoveTarget>().player = transform;
 	}
 	
 	void SetSpawnPos() {
+		transform.SetParent(GameObject.FindGameObjectWithTag("Map").transform);
 		var emptys = GameObject.FindGameObjectsWithTag("EmptyFloor");
 		Vector3 pos = emptys[Random.Range(0, emptys.Length)].transform.position;
-		transform.position = new Vector3(pos.x, pos.y, -1f);
+		transform.position = new Vector3(pos.x, pos.y, -0.7f);
 	}
 
 	// Update is called once per frame
@@ -44,12 +49,13 @@ public class ScriptPlayer : MonoBehaviour {
         rb.AddForce(movement * speed);
 		float angle = Vector3.SignedAngle(new Vector3(0, 1, 0), sight.transform.position - transform.position, new Vector3(0, 0, 1));
 		transform.localEulerAngles = new Vector3(0, 0, angle);
-		transform.position = new Vector3(transform.position.x, transform.position.y, -1f);
 		if (movement.sqrMagnitude != 0){
 			anim.SetBool("isMoving", true);
 		}else{
 			anim.SetBool("isMoving", true);
 		}
+		sight.GetComponent<MoveTarget>().setAngle(transform.localEulerAngles);
+		transform.position = new Vector3(transform.position.x, transform.position.y, -0.7f);
 	}
 
 	void MoveKeyboard() {
@@ -89,14 +95,13 @@ public class ScriptPlayer : MonoBehaviour {
 		var script = createdProjectile.GetComponent<ScriptLaunchedProjectile>();
 		script.rotation = transform.localEulerAngles;
 		script.direction = direction;
-		Debug.Log(createdProjectile.transform.rotation);
 		script.launch();
 		
 	}
 
 	void Update() {
-		
-		if (GamePad.GetTrigger(GamePad.Trigger.RightTrigger, gamepad) == 1 && Time.time - lastShoot >= relaodSecond) {
+		Debug.Log(GamePad.GetTrigger(GamePad.Trigger.RightTrigger, gamepad));
+		if (GamePad.GetButton(GamePad.Button.A, gamepad) == true && Time.time - lastShoot >= relaodSecond) {
 			lastShoot = Time.time;
 			Fire(inc, true);
 		}

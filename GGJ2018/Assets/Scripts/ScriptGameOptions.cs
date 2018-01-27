@@ -5,5 +5,6 @@ using GamepadInput;
 
 public static class ScriptGameOptions {
 	public static int playersNumber;
-	public static GamePad.Index[] gamepads;	
+	public static GamePad.Index?[] gamepads;	
+	public static Color[] playerColors;
 }

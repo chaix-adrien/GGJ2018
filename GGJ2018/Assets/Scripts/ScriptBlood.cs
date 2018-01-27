@@ -18,7 +18,7 @@ public class ScriptBlood : MonoBehaviour {
 	}
 
 	void  OnTriggerEnter (Collider collision) {
-		if (collision.tag == "Player" && fromPlayer != collision.gameObject) {
+		if (collision.tag == "Player" && fromPlayer != collision.gameObject.transform) {
 			collision.gameObject.GetComponent<ScriptAggro>().addAggro(aggroAtHit);
 			collision.gameObject.GetComponent<Animator>().SetTrigger("isSplashed");
 		}

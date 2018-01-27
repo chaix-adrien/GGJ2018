@@ -30,9 +30,7 @@ public class ScriptScore : MonoBehaviour {
 				score -= 100;
 			}
 		}
-		scoreText = "Score: " + score.ToString();
-		Debug.Log(scoreText);
-		
+		scoreText = "Score: " + score.ToString();		
 	}
 	public void DecreaseScore(int decrease) {
 		score -= decrease;

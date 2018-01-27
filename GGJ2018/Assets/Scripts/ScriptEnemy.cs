@@ -104,23 +104,17 @@ public class ScriptEnemy : MonoBehaviour
             total += agroValues[result];
             if (total > randVal) break;
         }
-        return players[result];
+        Debug.Log(result);
+        return players[result-1];
 	}
     void OnCollisionEnter(Collision collision) {
         if (collision.collider.tag == "Player") {
-            TuchPlayer(collision.gameObject);
-        } else if (collision.collider.tag == "Ball") {
             TuchPlayer(collision.gameObject);
         }
     }
 
     void TuchPlayer(GameObject player) {
         player.GetComponent<ScriptScore>().DecreaseScore(hitDamage);
-        Destroy(gameObject);
-    }
-
-    void TuchBall(GameObject ball) {
-        ball.GetComponent<ScriptAggro>().reduceAggro(hitDamage);
         Destroy(gameObject);
     }
 
