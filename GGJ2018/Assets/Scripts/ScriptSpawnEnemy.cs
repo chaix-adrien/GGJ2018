@@ -11,11 +11,9 @@ public class ScriptSpawnEnemy : MonoBehaviour
     private float spawnX;
     private float spawnY;
 	private Vector3 spawnPosition;
-	Camera cam;
     // Use this for initialization
     void Start()
     {
-		cam = GetComponent<Camera>();
         InvokeRepeating("SpawnEnemy", spawnTime, spawnTime);
     }
 
@@ -27,33 +25,27 @@ public class ScriptSpawnEnemy : MonoBehaviour
 
     void SpawnEnemy()
     {
+		GameObject[] respawns = GameObject.FindGameObjectsWithTag("e");
+
         Vector3 dir;
         Vector3 position;
-
-		
-		
-
 		// Spawn an amount of enemies (numberOfEnemy) randomly on the map
 		for(int i = 0; i < numberOfEnemy; i++)
 		{
-			dir.x = Random.Range(0.0f, Camera.main.pixelWidth);
- 			dir.y = Random.Range(0.0f, Camera.main.pixelHeight);
-			position = Vector3.zero;
+			position.x = Random.Range(0.0f, Camera.main.pixelWidth);
+ 			position.y = Random.Range(0.0f, Camera.main.pixelHeight);
+			position.z = 0.0f;
+			// Get list of spawnable objects with tags
 
+
+
+			// Check if there's no game object "Player" on 
 			// Check if there's a gameobject present on a random position 
-			if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
-			{//make it appear on the side
-				position = new Vector3(Mathf.Sign(dir.x) * Camera.main.orthographicSize * Camera.main.aspect,
-										0,
-										dir.y * Camera.main.orthographicSize);
+			if (Mathf.Abs(position.x) > Mathf.Abs(position.y))
+			{
+				Instantiate(enemy, position, Quaternion.identity);
 			}
-			else
-			{//make it appear on the top/bottom
-				position = new Vector3(dir.x * Camera.main.orthographicSize * Camera.main.aspect,
-										0,
-										Mathf.Sign(dir.y) * Camera.main.orthographicSize);
-			}
-			Instantiate(enemy, position, Quaternion.identity);
+			
 		}
        
     }
