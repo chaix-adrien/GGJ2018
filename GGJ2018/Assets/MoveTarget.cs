@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GamepadInput;
 
 public class MoveTarget : MonoBehaviour {
 
@@ -13,8 +14,7 @@ public class MoveTarget : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		float dirHorizontal = Input.GetAxis ("HorizontalRight");
-        float dirVertical = Input.GetAxis ("VerticalRight");
-		transform.position = new Vector3(player.position.x + dirHorizontal, player.position.y + dirVertical, player.position.z);
+		Vector2 dir  = GamePad.GetAxis(GamePad.Axis.RightStick, player.gameObject.GetComponent<ScriptPlayer>().gamepad);
+		transform.position = new Vector3(player.position.x + dir.x, player.position.y + dir.y, player.position.z);
 	}
 }
