@@ -3,21 +3,65 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
+using GamepadInput;
 public class ScriptMainMenu : MonoBehaviour {
 
 	private Button startButton;
-	private Dropdown playersDropdown;
+	private Toggle[] toggles = new Toggle[4];
+	private GamePad.Index[] gamepads = new GamePad.Index[4];
+	private bool[] gamepadIsRegistered = {false, false, false, false};
+	int playersReadyCount = 0;
 
 	void Start() {
 		startButton = GetComponentInChildren<Button>();
-		playersDropdown = GetComponentInChildren<Dropdown>();
+		toggles[0] = GameObject.FindWithTag("Player1Toggle").GetComponent<Toggle>();
+		toggles[1] = GameObject.FindWithTag("Player2Toggle").GetComponent<Toggle>();
+		toggles[2] = GameObject.FindWithTag("Player3Toggle").GetComponent<Toggle>();
+		toggles[3] = GameObject.FindWithTag("Player4Toggle").GetComponent<Toggle>();
 		startButton.onClick.AddListener(LoadLevel);
 	}
 
+	void FixedUpdate() {
+		if (playersReadyCount < 4 && GetButtonA(0)) {
+			for (int i = 0; i < 4; i++) {
+				if (!gamepadIsRegistered[i] && GetButtonA(i+1)) {
+					gamepadIsRegistered[i] = true;
+					gamepads[playersReadyCount] = (GamePad.Index)(i+1);
+					toggles[playersReadyCount].isOn = true;
+					playersReadyCount++;
+				}
+			}
+		}
+	}
+
 	void LoadLevel() {
-		ScriptGameOptions.playersNumber = playersDropdown.value + 2;
-		Debug.Log(ScriptGameOptions.playersNumber);
-		SceneManager.LoadScene("Game");
+		if (playersReadyCount >= 2) {
+			ScriptGameOptions.playersNumber = playersReadyCount;
+			ScriptGameOptions.gamepads = gamepads;
+			SceneManager.LoadScene("Game");
+		}
+	}
+
+	bool GetButtonA(int index) {
+		GamePad.Index gamepadIndex;
+		switch (index) {
+			case 1:
+			gamepadIndex = GamePad.Index.One;
+			break;
+			case 2:
+			gamepadIndex = GamePad.Index.Two;
+			break;
+			case 3:
+			gamepadIndex = GamePad.Index.Three;
+			break;
+			case 4:
+			gamepadIndex = GamePad.Index.Four;
+			break;
+			case 0:
+			default:
+			gamepadIndex = GamePad.Index.Any;
+			break;
+		}
+		return GamePad.GetButton(GamePad.Button.A, gamepadIndex);
 	}
 }
