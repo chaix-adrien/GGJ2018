@@ -18,24 +18,18 @@ public class ScriptSpawnEnemy : MonoBehaviour
         InvokeRepeating("SpawnEnemy", spawnTime, spawnTime);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
    void SpawnEnemy()
     {
         GameObject[] respawns;
         GameObject[] players;
-        float playerZ;
+        float positionZ;
         Vector3 position;
         int numberOfPlayers;
 
         // Store the list of spawnable blocks in the map
         respawns = GameObject.FindGameObjectsWithTag("EmptyFloor");
         
-
+        positionZ = GameObject.FindGameObjectWithTag("Player").transform.position.z;
         players = GameObject.FindGameObjectsWithTag("Player");
         numberOfPlayers = players.Length;
 
@@ -72,6 +66,7 @@ public class ScriptSpawnEnemy : MonoBehaviour
                     }
                 break;
             }
+            position.z = positionZ;
             Instantiate(enemy, position, Quaternion.identity);
         }
     }
