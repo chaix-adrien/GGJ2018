@@ -6,6 +6,7 @@ public class ScriptSpawnEnemy : MonoBehaviour
 {
 
     public GameObject enemy;
+    public float spawnDistanceFromPlayer;
     public float spawnTime;
 	public int numberOfEnemy;
     private float spawnX;
@@ -24,34 +25,50 @@ public class ScriptSpawnEnemy : MonoBehaviour
         
     }
 
-    void SpawnEnemy()
+   void SpawnEnemy()
     {
-		GameObject[] respawns;
-        GameObject player;
+        GameObject[] respawns;
+        GameObject[] players;
         float playerZ;
         Vector3 position;
+        int numberOfPlayers;
 
         // Store the list of spawnable blocks in the map
         respawns = GameObject.FindGameObjectsWithTag("EmptyFloor");
 
-        player = GameObject.FindGameObjectWithTag("Player");
-        
+        players = GameObject.FindGameObjectsWithTag("Player");
+        numberOfPlayers = players.Length;
         playerZ = GameObject.FindGameObjectWithTag("Player").transform.position.z;
-        
-        // Spawn an amount of enemies (numberOfEnemy) randomly on the map
-		for(int i = 0; i < numberOfEnemy; i++)
-		{
-            // Check if there's no game object "Player" on position
-			position = (respawns.GetValue( Random.Range(0, respawns.Length))  as GameObject).transform.position;
-            while(position == player.transform.position)
-            {
-                position = (respawns.GetValue( Random.Range(0, respawns.Length))  as GameObject).transform.position;
-            }
 
+        // Spawn an amount of enemies (numberOfEnemy) randomly on the map
+        for (int i = 0; i < numberOfEnemy; i++)
+        {
+            // Get a random position map
+            position = (respawns.GetValue(Random.Range(0, respawns.Length)) as GameObject).transform.position; 
+            // Check if there's no game object "Player" on or near
+            switch(numberOfPlayers)
+            {
+                case 2:
+                    while(Vector3.Distance (players[0].transform.position, position) < spawnDistanceFromPlayer || Vector3.Distance (players[1].transform.position, position) < spawnDistanceFromPlayer )
+                    {
+                        position = (respawns.GetValue(Random.Range(0, respawns.Length)) as GameObject).transform.position; 
+                    }
+                break;
+                case 3:
+                    while(Vector3.Distance (players[0].transform.position, position) < spawnDistanceFromPlayer || Vector3.Distance (players[1].transform.position, position) < spawnDistanceFromPlayer || Vector3.Distance (players[2].transform.position, position) < spawnDistanceFromPlayer)
+                    {
+                        position = (respawns.GetValue(Random.Range(0, respawns.Length)) as GameObject).transform.position; 
+                    }
+                break;
+                case 4:
+                    while(Vector3.Distance (players[0].transform.position, position) < spawnDistanceFromPlayer || Vector3.Distance (players[1].transform.position, position) < spawnDistanceFromPlayer || Vector3.Distance (players[2].transform.position, position) < spawnDistanceFromPlayer || Vector3.Distance (players[3].transform.position, position) < spawnDistanceFromPlayer)
+                    {
+                        position = (respawns.GetValue(Random.Range(0, respawns.Length)) as GameObject).transform.position; 
+                    }
+                break;
+            }
             position.z = playerZ;
-			
-			Instantiate(enemy, position, Quaternion.identity);		
-		}
-       
+            Instantiate(enemy, position, Quaternion.identity);
+        }
     }
 }
