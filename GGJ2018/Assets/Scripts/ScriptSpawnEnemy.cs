@@ -30,14 +30,14 @@ public class ScriptSpawnEnemy : MonoBehaviour
         Vector3 dir;
         Vector3 position;
 
-		spawnPosition.x = Random.Range (-17, 17);
-        spawnPosition.y = Random.Range (-17, 17);
-        spawnPosition.z = 0.0f;
+		
+		
 
 		// Spawn an amount of enemies (numberOfEnemy) randomly on the map
 		for(int i = 0; i < numberOfEnemy; i++)
 		{
-			dir = Random.insideUnitCircle;
+			dir.x = Random.Range(0.0f, Camera.main.pixelWidth);
+ 			dir.y = Random.Range(0.0f, Camera.main.pixelHeight);
 			position = Vector3.zero;
 
 			// Check if there's a gameobject present on a random position 
