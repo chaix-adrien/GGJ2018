@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ScriptmapGenerator : MonoBehaviour {
+	public Camera mainCamera;
 	public int height = 9;
 	public int width = 16;
 	public float fullRate = 0.1f;
@@ -15,6 +16,7 @@ public class ScriptmapGenerator : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//Delete all child object (reset map)
+		mainCamera.orthographicSize = 5f/9f*height;
 		foreach (Transform child in gameObject.transform) {
      		GameObject.Destroy(child.gameObject);
  		}
