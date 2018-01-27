@@ -15,7 +15,6 @@ public class ScriptSpawnEnemy : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        // Instantiate(enemy, new Vector3(2,0,-1), Quaternion.identity);
         InvokeRepeating("SpawnEnemy", spawnTime, spawnTime);
     }
 
@@ -48,6 +47,12 @@ public class ScriptSpawnEnemy : MonoBehaviour
             // Check if there's no game object "Player" on or near
             switch(numberOfPlayers)
             {
+                case 1:
+                    while(Vector3.Distance (players[0].transform.position, position) < spawnDistanceFromPlayer)
+                    {
+                        position = (respawns.GetValue(Random.Range(0, respawns.Length)) as GameObject).transform.position; 
+                    }
+                break;
                 case 2:
                     while(Vector3.Distance (players[0].transform.position, position) < spawnDistanceFromPlayer || Vector3.Distance (players[1].transform.position, position) < spawnDistanceFromPlayer )
                     {
