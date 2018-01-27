@@ -41,7 +41,7 @@ public class ScriptEnemy : MonoBehaviour
 				}
 			}
 			if (enemyType == EnemyType.TARGETING) {
-				var agroLevel = target.GetComponent<ScriptPlayer>().agroLevel;
+				var agroLevel = 100;
 				if (Random.value < targetingTypeChangeProb + targetingProbAgroBonus*(100 - agroLevel)/100) {
 					target = GetRandomPlayerByAgro(players).transform;
 				}
@@ -94,7 +94,7 @@ public class ScriptEnemy : MonoBehaviour
 		var agroValues = new int[players.Length];
 		var agroTotal = 0;
 		foreach (var player in players) {
-			agroTotal += player.GetComponent<ScriptPlayer>().agroLevel;
+			agroTotal += 100;
 		}
 
         int result = 0, total = 0;

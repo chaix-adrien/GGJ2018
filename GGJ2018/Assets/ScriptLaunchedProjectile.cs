@@ -8,12 +8,11 @@ public class ScriptLaunchedProjectile : MonoBehaviour {
 	public Vector3 dir;
 	public int speed = 100;
 	public bool deleteOnCollision = true;
-	void Start () {
-		transform.SetParent(GameObject.FindGameObjectWithTag("Map").transform);
+	void Awake () {
+		//transform.SetParent(GameObject.FindGameObjectWithTag("Map").transform);
+		Debug.Log(transform.localScale);
+		
 		rb = gameObject.GetComponent<Rigidbody>();
-		transform.localEulerAngles = dir;
-		transform.Rotate(new Vector3(90, 0, 0));
-		rb.AddRelativeForce(new Vector3(0, 0, 1) * speed);
 	}
 	
 	// Update is called once per frame
@@ -21,9 +20,18 @@ public class ScriptLaunchedProjectile : MonoBehaviour {
 		
 	}
 
+	public void launch() {
+		transform.localEulerAngles = dir;
+		transform.Rotate(new Vector3(90, 0, 0));
+		rb.AddRelativeForce(new Vector3(0, 0, 1) * speed);
+	}
+
 	void  OnTriggerEnter (Collider collision) {
+		Debug.Log("Colision");
 		if (deleteOnCollision && collision.tag == "FullFloor") {
 			Destroy(gameObject);
 		}
 	}
+
+	
 }
