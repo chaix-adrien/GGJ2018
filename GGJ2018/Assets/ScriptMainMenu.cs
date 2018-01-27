@@ -9,7 +9,7 @@ public class ScriptMainMenu : MonoBehaviour {
 
 	private Button startButton;
 	private Toggle[] toggles = new Toggle[4];
-	private GamePad.Index[] gamepads = new GamePad.Index[4];
+	private GamePad.Index?[] gamepads = {null, null, null, null};
 	private bool[] gamepadIsRegistered = {false, false, false, false};
 	int playersReadyCount = 0;
 
@@ -25,6 +25,7 @@ public class ScriptMainMenu : MonoBehaviour {
 	void FixedUpdate() {
 		if (GamePad.GetButton(GamePad.Button.Start, GamePad.Index.Any)) {
 			LoadLevel();
+			
 		}
 		if (GamePad.GetButton(GamePad.Button.Back, GamePad.Index.Any)) {
 			foreach (var toggle in toggles) {
@@ -32,7 +33,7 @@ public class ScriptMainMenu : MonoBehaviour {
 			}
 			gamepadIsRegistered = Enumerable.Repeat<bool>(false, 4).ToArray();
 			playersReadyCount = 0;
-			gamepads = new GamePad.Index[4];
+			gamepads = Enumerable.Repeat<GamePad.Index?>(null, 4).ToArray();
 		}
 		if (playersReadyCount < 4 && GetButtonA(0)) {
 			for (int i = 0; i < 4; i++) {
