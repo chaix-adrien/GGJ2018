@@ -14,24 +14,33 @@ public class ScriptSpawnEnemy : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        // Instantiate(enemy, new Vector3(2,0,-1), Quaternion.identity);
         InvokeRepeating("SpawnEnemy", spawnTime, spawnTime);
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     void SpawnEnemy()
     {
         // Store the list of spawnable blocks in the map
 		GameObject[] respawns;
+        GameObject player;
+        
         Vector3 position;
 
 
         respawns = GameObject.FindGameObjectsWithTag("EmptyFloor");
+        player = GameObject.FindGameObjectWithTag("Player");
         position = (respawns.GetValue( Random.Range(0, respawns.Length))  as GameObject).transform.position;
+        while(position == player.transform.position)
+        {
+            position = (respawns.GetValue( Random.Range(0, respawns.Length))  as GameObject).transform.position;
+        }
+        
 
         // Spawn an amount of enemies (numberOfEnemy) randomly on the map
 		for(int i = 0; i < numberOfEnemy; i++)
@@ -43,10 +52,9 @@ public class ScriptSpawnEnemy : MonoBehaviour
 
 			// Check if there's no game object "Player" on 
 			// Check if there's a gameobject present on a random position 
-			if (Mathf.Abs(position.x) > Mathf.Abs(position.y))
-			{
-				Instantiate(enemy, position, Quaternion.identity);
-			}
+			
+			Instantiate(enemy, position, Quaternion.identity);
+			
 			
 		}
        
