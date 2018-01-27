@@ -25,16 +25,18 @@ public class ScriptSpawnEnemy : MonoBehaviour
 
     void SpawnEnemy()
     {
-		GameObject[] respawns = GameObject.FindGameObjectsWithTag("e");
-
-        Vector3 dir;
+        // Store the list of spawnable blocks in the map
+		GameObject[] respawns;
         Vector3 position;
-		// Spawn an amount of enemies (numberOfEnemy) randomly on the map
+
+
+        respawns = GameObject.FindGameObjectsWithTag("EmptyFloor");
+        position = (respawns.GetValue( Random.Range(0, respawns.Length))  as GameObject).transform.position;
+
+        // Spawn an amount of enemies (numberOfEnemy) randomly on the map
 		for(int i = 0; i < numberOfEnemy; i++)
 		{
-			position.x = Random.Range(0.0f, Camera.main.pixelWidth);
- 			position.y = Random.Range(0.0f, Camera.main.pixelHeight);
-			position.z = 0.0f;
+			
 			// Get list of spawnable objects with tags
 
 
