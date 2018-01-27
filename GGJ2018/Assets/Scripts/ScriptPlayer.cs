@@ -101,7 +101,7 @@ public class ScriptPlayer : MonoBehaviour {
 
 	void Update() {
 		Debug.Log(GamePad.GetTrigger(GamePad.Trigger.RightTrigger, gamepad));
-		if (GamePad.GetButton(GamePad.Button.A, gamepad) == true && Time.time - lastShoot >= relaodSecond) {
+		if (GamePad.GetTrigger(GamePad.Trigger.RightTrigger, gamepad) == 1 && Time.time - lastShoot >= relaodSecond) {
 			lastShoot = Time.time;
 			Fire(inc, true);
 		}
