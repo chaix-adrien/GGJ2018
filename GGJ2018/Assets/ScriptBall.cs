@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ScriptBall : MonoBehaviour {
-	private GameObject player = null;
+	public GameObject player = null;
 	// Use this for initialization
 	void Awake () {
 		SetSpawnPos();	
