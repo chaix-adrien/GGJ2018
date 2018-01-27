@@ -27,37 +27,37 @@ public class ScriptMainMenu : MonoBehaviour {
 			LoadLevel();
 			
 		}
-		if (GamePad.GetButton(GamePad.Button.Back, GamePad.Index.Any)) {
-			foreach (var toggle in toggles) {
-				toggle.isOn = false;
-			}
-			gamepadIsRegistered = Enumerable.Repeat<bool>(false, 4).ToArray();
-			playersReadyCount = 0;
-			gamepads = Enumerable.Repeat<GamePad.Index?>(null, 4).ToArray();
-		}
-		if (playersReadyCount < 4 && GetButtonA(0)) {
+		if (playersReadyCount < 4) {
 			for (int i = 0; i < 4; i++) {
-				if (GetButtonA(i+1)) {
-					if (!gamepadIsRegistered[i]) {
-						gamepadIsRegistered[i] = true;
-						gamepads[playersReadyCount] = (GamePad.Index)(i+1);
-						toggles[playersReadyCount].isOn = true;
-						playersReadyCount++;
-					}
+				if (!gamepadIsRegistered[i] && GetButton(i+1, GamePad.Button.A)) {
+					gamepadIsRegistered[i] = true;
+					gamepads[i] = (GamePad.Index)(i+1);
+					toggles[i].isOn = true;
+					playersReadyCount++;
+				}
+			}
+		}
+		if (playersReadyCount > 0) {
+			for (int i = 0; i < 4; ++i) {
+				if (gamepadIsRegistered[i] && GetButton(i+1, GamePad.Button.B)) {
+					gamepadIsRegistered[i] = false;
+					gamepads[i] = null;
+					toggles[i].isOn = false;
+					playersReadyCount--;
 				}
 			}
 		}
 	}
 
 	void LoadLevel() {
-		if (playersReadyCount >= 2) {
+		if (playersReadyCount >= 1) {
 			ScriptGameOptions.playersNumber = playersReadyCount;
 			ScriptGameOptions.gamepads = gamepads;
 			SceneManager.LoadScene("Game");
 		}
 	}
 
-	bool GetButtonA(int index) {
+	bool GetButton(int index, GamePad.Button button) {
 		GamePad.Index gamepadIndex;
 		switch (index) {
 			case 1:
@@ -77,6 +77,6 @@ public class ScriptMainMenu : MonoBehaviour {
 			gamepadIndex = GamePad.Index.Any;
 			break;
 		}
-		return GamePad.GetButton(GamePad.Button.A, gamepadIndex);
+		return GamePad.GetButton(button, gamepadIndex);
 	}
 }
