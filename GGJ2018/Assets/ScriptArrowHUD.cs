@@ -13,7 +13,7 @@ public class ScriptArrowHUD : MonoBehaviour {
 	public Sprite up;
 	public Sprite down;
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		img = GetComponent<Image>();
 	}
 	
