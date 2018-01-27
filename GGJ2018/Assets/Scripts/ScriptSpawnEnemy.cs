@@ -30,6 +30,7 @@ public class ScriptSpawnEnemy : MonoBehaviour
         GameObject player;
         float playerZ;
         Vector3 position;
+        List<Vector3> positions = new List<Vector3>();
 
         // Store the list of spawnable blocks in the map
         respawns = GameObject.FindGameObjectsWithTag("EmptyFloor");
@@ -47,13 +48,13 @@ public class ScriptSpawnEnemy : MonoBehaviour
             Collider[] hitColliders = Physics.OverlapSphere(player.transform.position, 2);
             foreach (Collider collider in hitColliders)
             {
-                if(position == collider.transform.position)
+                while (position == collider.transform.position)
                 {
-
+                    positions.Add(position);
                 }
             }
 
-            
+
             while (position == player.transform.position)
             {
                 position = (respawns.GetValue(Random.Range(0, respawns.Length)) as GameObject).transform.position;
