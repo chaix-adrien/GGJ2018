@@ -18,6 +18,7 @@ public class ScriptPlayer : MonoBehaviour {
 	void Start () {
 		rb = GetComponent<Rigidbody>();
 		rb.drag = drag;
+		Debug.Log("Spawn");
 		SetSpawnPos();
 	}
 	
@@ -65,17 +66,18 @@ public class ScriptPlayer : MonoBehaviour {
 			createdProjectile = projectile;
 			createdProjectile.transform.rotation = transform.rotation;
 		}
-		if (projectile == ball) {
+		if (projectile == ball)
 			createdProjectile.GetComponent<ScriptBall>().launch();			
-		}
+		if (projectile == inc)
+			createdProjectile.GetComponent<ScriptInc>().fromPlayer = transform;
+		if (projectile == blood)
+			createdProjectile.GetComponent<ScriptBlood>().fromPlayer = transform;
 		var script = createdProjectile.GetComponent<ScriptLaunchedProjectile>();
 		script.rotation = transform.localEulerAngles;
 		script.direction = sight.transform.position - transform.position;
 		Debug.Log(createdProjectile.transform.rotation);
 		script.launch();
 		
-		//Parametre Instanciate ou pas
-		//
 	}
 
 	void Update() {
