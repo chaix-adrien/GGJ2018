@@ -34,10 +34,10 @@ public class ScriptSpawnEnemy : MonoBehaviour
 
         // Store the list of spawnable blocks in the map
         respawns = GameObject.FindGameObjectsWithTag("EmptyFloor");
+        
 
         players = GameObject.FindGameObjectsWithTag("Player");
         numberOfPlayers = players.Length;
-        playerZ = GameObject.FindGameObjectWithTag("Player").transform.position.z;
 
         // Spawn an amount of enemies (numberOfEnemy) randomly on the map
         for (int i = 0; i < numberOfEnemy; i++)
@@ -72,7 +72,6 @@ public class ScriptSpawnEnemy : MonoBehaviour
                     }
                 break;
             }
-            position.z = playerZ;
             Instantiate(enemy, position, Quaternion.identity);
         }
     }
