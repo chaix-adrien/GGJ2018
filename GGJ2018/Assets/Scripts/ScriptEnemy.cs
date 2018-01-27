@@ -104,7 +104,8 @@ public class ScriptEnemy : MonoBehaviour
             total += agroValues[result];
             if (total > randVal) break;
         }
-        return players[result];
+        Debug.Log(result);
+        return players[result-1];
 	}
     void OnCollisionEnter(Collision collision) {
         if (collision.collider.tag == "Player") {
