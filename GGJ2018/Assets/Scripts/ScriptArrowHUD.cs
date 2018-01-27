@@ -12,8 +12,10 @@ public class ScriptArrowHUD : MonoBehaviour {
 	private float lastTime = 0.0f;
 	public Sprite up;
 	public Sprite down;
+	private Animator anim;
 	// Use this for initialization
 	void Awake () {
+		anim = GetComponent<Animator>();
 		img = GetComponent<Image>();
 	}
 	
@@ -37,18 +39,25 @@ public class ScriptArrowHUD : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		var actAggro = player.GetComponent<ScriptAggro>().aggro;
-		if (actAggro < lastAggro) {
-			img.color = new Color(255, 255, 255, 255);
-			img.sprite = up;
+		Debug.Log("last " + lastTime);
+		Debug.Log("act " + actAggro);
+		if (Time.time - lastTime > 1) {
+			if (actAggro > lastAggro) {
+				img.color = new Color(255, 255, 255, 255);
+				img.sprite = up;
+				//anim.SetBool("up", true);
+			} else if (actAggro < lastAggro) {
+				img.color = new Color(255, 255, 255, 255);
+				img.sprite = down;
+	//			anim.SetBool("up", true);
+				
+			} else {
+				img.color = new Color(0, 0, 0, 0);
+			}
 			lastTime = Time.time;
-		} else if (actAggro > lastAggro) {
-			img.color = new Color(255, 255, 255, 255);
-			img.sprite = down;
-			lastTime = Time.time;
-		} else if (Time.time - lastTime > 1) {
-			lastTime = Time.time;
-			img.color = new Color(0, 0, 0, 0);
+			lastAggro = actAggro;
 		}
-		lastAggro = actAggro;
+		
+		
 	}
 }

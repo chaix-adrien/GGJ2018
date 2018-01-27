@@ -40,7 +40,7 @@ public class ScriptSpawnEnemy : MonoBehaviour
         playerZ = GameObject.FindGameObjectWithTag("Player").transform.position.z;
 
         // Spawn an amount of enemies (numberOfEnemy) randomly on the map
-        for (int i = 0; i < numberOfEnemy; i++)
+        for (int i = 0; i < numberOfEnemy * Mathf.FloorToInt(GameObject.FindGameObjectWithTag("Ball").GetComponent<ScriptAggro>().aggro / 10); i++)
         {
             // Get a random position map
             position = (respawns.GetValue(Random.Range(0, respawns.Length)) as GameObject).transform.position; 

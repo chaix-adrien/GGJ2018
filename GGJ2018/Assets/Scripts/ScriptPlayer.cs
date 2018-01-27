@@ -19,13 +19,14 @@ public class ScriptPlayer : MonoBehaviour {
 	public Animator anim;
 
 	public Color color;
+
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody>();
 		rb.drag = drag;
 		SetSpawnPos();
 		GetComponent<SpriteRenderer>().color = color;
-		anim=GetComponent<Animator>();
+		anim = GetComponent<Animator>();
 		sight = Instantiate(sight, new Vector3(0, 0, 0), Quaternion.identity);
 		sight.GetComponent<MoveTarget>().player = transform;
 	}
@@ -49,8 +50,8 @@ public class ScriptPlayer : MonoBehaviour {
         rb.AddForce(movement * speed);
 		float angle = Vector3.SignedAngle(new Vector3(0, 1, 0), sight.transform.position - transform.position, new Vector3(0, 0, 1));
 		transform.localEulerAngles = new Vector3(0, 0, angle);
-		if (movement.sqrMagnitude != 0){
-			anim.SetBool("isMoving", true);
+		if (movement.sqrMagnitude < Mathf.Epsilon){
+			anim.SetBool("isMoving", false);
 		}else{
 			anim.SetBool("isMoving", true);
 		}
@@ -112,5 +113,9 @@ public class ScriptPlayer : MonoBehaviour {
 			lastShoot = Time.time;
 			Fire(blood, true);
 		}
+	}
+
+	public void setHoldingBall(bool holding) {
+		anim.SetBool("isHoldingBall", holding);
 	}
 }
