@@ -6,8 +6,12 @@ public class ScriptEnemy : MonoBehaviour
 {
     public enum EnemyType { NORMAL, TARGETING };
 
-	public float typeChangeProb = 0.5f;
+	public float normalTypeChangeProb = 0.5f;
 	public float typeChangeInterval = 3.0f;
+	public float targetingTypeChangeProb = 0.1f;
+	//Add between 0 and $value to the prob of targeting another player
+	//invertly proportionnal to the currently targeted player agro level
+	public float targetingProbAgroBonus = 0.3f;
     public EnemyType enemyType = EnemyType.NORMAL;
     public float normalMoveSpeed = 5.0f;
     public float targetingMoveSpeed = 10.0f;
@@ -16,6 +20,7 @@ public class ScriptEnemy : MonoBehaviour
 
     private Transform target = null;
     private Rigidbody rb = null;
+	private float elapsed = 0f;
     void Awake() {
         rb = GetComponent<Rigidbody>();
         players = GameObject.FindGameObjectsWithTag(targetTag);
@@ -25,6 +30,23 @@ public class ScriptEnemy : MonoBehaviour
     void FixedUpdate()
     {
         doEnemyBehavior();
+		elapsed += Time.fixedDeltaTime;
+        if (elapsed >= typeChangeInterval)
+        {
+            elapsed = elapsed % typeChangeInterval;
+			if (enemyType == EnemyType.NORMAL) {
+				if (Random.value < normalTypeChangeProb) {
+					enemyType = EnemyType.TARGETING;
+					target = GetRandomPlayerByAgro(players).transform;
+				}
+			}
+			if (enemyType == EnemyType.TARGETING) {
+				var agroLevel = target.GetComponent<ScriptPlayer>().agroLevel;
+				if (Random.value < targetingTypeChangeProb + targetingProbAgroBonus*(100 - agroLevel)/100) {
+					target = GetRandomPlayerByAgro(players).transform;
+				}
+			}
+        }
     }
 
     void doEnemyBehavior() {
