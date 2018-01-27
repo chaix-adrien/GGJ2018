@@ -15,6 +15,7 @@ public class ScriptPlayer : MonoBehaviour {
 	private float lastShoot = 0.0f;
 	public GamePad.Index gamepad;
 
+	public Animator anim;
 	public Color color;
 	// Use this for initialization
 	void Awake () {
@@ -22,6 +23,7 @@ public class ScriptPlayer : MonoBehaviour {
 		rb.drag = drag;
 		SetSpawnPos();
 		GetComponent<SpriteRenderer>().color = color;
+		anim=GetComponent<Animator>();
 	}
 	
 	void SetSpawnPos() {
@@ -33,6 +35,7 @@ public class ScriptPlayer : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 		MoveController();
+		
 	}
 
 	void MoveController() {
@@ -41,8 +44,12 @@ public class ScriptPlayer : MonoBehaviour {
         rb.AddForce(movement * speed);
 		float angle = Vector3.SignedAngle(new Vector3(0, 1, 0), sight.transform.position - transform.position, new Vector3(0, 0, 1));
 		transform.localEulerAngles = new Vector3(0, 0, angle);
-
 		transform.position = new Vector3(transform.position.x, transform.position.y, -1f);
+		if (movement.sqrMagnitude != 0){
+			anim.SetBool("isMoving", true);
+		}else{
+			anim.SetBool("isMoving", true);
+		}
 	}
 
 	void MoveKeyboard() {
