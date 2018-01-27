@@ -5,13 +5,12 @@ using UnityEngine;
 public class ScriptLaunchedProjectile : MonoBehaviour {
 	// Use this for initialization
 	private Rigidbody rb;
-	public Vector3 dir;
+	public Vector3 direction;
+	public Vector3 rotation;
 	public int speed = 100;
 	public bool deleteOnCollision = true;
 	void Awake () {
-		//transform.SetParent(GameObject.FindGameObjectWithTag("Map").transform);
-		Debug.Log(transform.localScale);
-		
+		//transform.SetParent(GameObject.FindGameObjectWithTag("Map").transform);		
 		rb = gameObject.GetComponent<Rigidbody>();
 	}
 	
@@ -21,9 +20,9 @@ public class ScriptLaunchedProjectile : MonoBehaviour {
 	}
 
 	public void launch() {
-		transform.localEulerAngles = dir;
+		transform.localEulerAngles = rotation;
 		transform.Rotate(new Vector3(90, 0, 0));
-		rb.AddRelativeForce(new Vector3(0, 0, 1) * speed);
+		rb.AddForce(direction * speed);
 	}
 
 	void  OnTriggerEnter (Collider collision) {

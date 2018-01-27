@@ -10,11 +10,12 @@ public class ScriptBall : MonoBehaviour {
 	}
 	
 	void SetSpawnPos() {
-		Debug.Log("Spawned");
 		var emptys = GameObject.FindGameObjectsWithTag("EmptyFloor");
 		Vector3 pos = emptys[Random.Range(0, emptys.Length)].transform.position;
-		//transform.SetParent(GameObject.FindGameObjectWithTag("Map").transform);
-		transform.position = new Vector3(pos.x, pos.y, -2);
+		Debug.Log(emptys.Length);
+		Debug.Log(pos);
+		transform.position = new Vector3(pos.x, pos.y, -1);
+		
 	}
 
 	// Update is called once per frame
@@ -30,16 +31,20 @@ public class ScriptBall : MonoBehaviour {
 	}
 
 	void attachToPlayer(GameObject playerToSet) {
+		Debug.Log("Attach ball to ");
+		Debug.Log(playerToSet);
 		player = playerToSet;
 		transform.SetParent(player.transform);
-		transform.localPosition = new Vector3(0, 0, -1);
+		transform.localPosition = new Vector3(0, 0, 2);
 		GetComponent<Rigidbody>().isKinematic = true;
 
 	}
 
 	public void launch() {
 		GetComponent<Rigidbody>().isKinematic = false;
-		transform.SetParent(GameObject.FindGameObjectWithTag("Map").transform);
+		transform.parent = null;
+		
+		player = null;
 	}
 
 }

@@ -24,39 +24,44 @@ public class ScriptSpawnEnemy : MonoBehaviour
         
     }
 
-    void SpawnEnemy()
+   void SpawnEnemy()
     {
-        // Store the list of spawnable blocks in the map
-		GameObject[] respawns;
+        GameObject[] respawns;
         GameObject player;
-        
+        float playerZ;
         Vector3 position;
 
-
+        // Store the list of spawnable blocks in the map
         respawns = GameObject.FindGameObjectsWithTag("EmptyFloor");
+
         player = GameObject.FindGameObjectWithTag("Player");
-        position = (respawns.GetValue( Random.Range(0, respawns.Length))  as GameObject).transform.position;
-        while(position == player.transform.position)
-        {
-            position = (respawns.GetValue( Random.Range(0, respawns.Length))  as GameObject).transform.position;
-        }
-        
+
+        playerZ = GameObject.FindGameObjectWithTag("Player").transform.position.z;
 
         // Spawn an amount of enemies (numberOfEnemy) randomly on the map
-		for(int i = 0; i < numberOfEnemy; i++)
-		{
-			
-			// Get list of spawnable objects with tags
+        for (int i = 0; i < numberOfEnemy; i++)
+        {
+            // Get a random position map
+            position = (respawns.GetValue(Random.Range(0, respawns.Length)) as GameObject).transform.position;
+            // Check if there's no game object "Player" on position
+            Collider[] hitColliders = Physics.OverlapSphere(player.transform.position, 2);
+            foreach (Collider collider in hitColliders)
+            {
+                if(position == collider.transform.position)
+                {
 
+                }
+            }
 
+            
+            while (position == player.transform.position)
+            {
+                position = (respawns.GetValue(Random.Range(0, respawns.Length)) as GameObject).transform.position;
+            }
 
-			// Check if there's no game object "Player" on 
-			// Check if there's a gameobject present on a random position 
-			
-			Instantiate(enemy, position, Quaternion.identity);
-			
-			
-		}
-       
+            position.z = playerZ;
+
+            Instantiate(enemy, position, Quaternion.identity);
+        }
     }
 }

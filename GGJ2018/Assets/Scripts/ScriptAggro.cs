@@ -19,7 +19,7 @@ public class ScriptAggro : MonoBehaviour {
         if (elapsed >= aggroInterval)
         {
 			elapsed = elapsed % aggroInterval;
-            bool hasObject = GetComponent<ScriptPlayer>().hasObject;
+            bool hasObject = false;
             if (hasObject && aggro < 100)
             {
                 aggro += increaseAggro;

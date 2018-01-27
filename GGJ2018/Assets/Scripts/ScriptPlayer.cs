@@ -24,8 +24,7 @@ public class ScriptPlayer : MonoBehaviour {
 	void SetSpawnPos() {
 		var emptys = GameObject.FindGameObjectsWithTag("EmptyFloor");
 		Vector3 pos = emptys[Random.Range(0, emptys.Length)].transform.position;
-		transform.SetParent(GameObject.FindGameObjectWithTag("Map").transform);
-		transform.position = new Vector3(pos.x, pos.y, -1);
+		transform.position = new Vector3(pos.x, pos.y, -1f);
 	}
 
 	// Update is called once per frame
@@ -37,7 +36,8 @@ public class ScriptPlayer : MonoBehaviour {
 		Vector2 move = GamePad.GetAxis(GamePad.Axis.LeftStick, gamepad);
         Vector3 movement = new Vector3 (move.x, move.y, 0.0f);
         rb.AddForce (movement * speed);
-		transform.LookAt(sight, new Vector3(0, 0, -1));
+		transform.LookAt(sight, new Vector3(0, 0, 1));
+		transform.position = new Vector3(transform.position.x, transform.position.y, -1f);
 	}
 
 	void MoveKeyboard() {
@@ -63,13 +63,17 @@ public class ScriptPlayer : MonoBehaviour {
 			createdProjectile = Instantiate(projectile, transform.position, transform.rotation);
 		} else {
 			createdProjectile = projectile;
+			createdProjectile.transform.rotation = transform.rotation;
+		}
+		if (projectile == ball) {
+			createdProjectile.GetComponent<ScriptBall>().launch();			
 		}
 		var script = createdProjectile.GetComponent<ScriptLaunchedProjectile>();
-		script.dir = transform.localEulerAngles;
-		if (projectile == ball) {
-			createdProjectile.GetComponent<ScriptBall>().launch();
-		}
+		script.rotation = transform.localEulerAngles;
+		script.direction = sight.transform.position - transform.position;
+		Debug.Log(createdProjectile.transform.rotation);
 		script.launch();
+		
 		//Parametre Instanciate ou pas
 		//
 	}
@@ -80,13 +84,12 @@ public class ScriptPlayer : MonoBehaviour {
 			lastShoot = Time.time;
 			Fire(inc, true);
 		}
-		if (GamePad.GetTrigger(GamePad.Trigger.LeftTrigger, gamepad) == 1 && Time.time - lastShoot >= relaodSecond) {
-			lastShoot = Time.time;
-			Fire(blood, true);
-		}
-		if (Input.GetKeyDown("a") == true && Time.time - lastShoot >= relaodSecond) {
+		if (GameObject.FindGameObjectWithTag("Ball").GetComponent<ScriptBall>().player == gameObject &&  GamePad.GetTrigger(GamePad.Trigger.LeftTrigger, gamepad) == 1 && Time.time - lastShoot >= relaodSecond) {
 			lastShoot = Time.time;
 			Fire(ball, false);
+		} else if (GamePad.GetTrigger(GamePad.Trigger.LeftTrigger, gamepad) == 1 && Time.time - lastShoot >= relaodSecond) {
+			lastShoot = Time.time;
+			Fire(blood, true);
 		}
 	}
 }
