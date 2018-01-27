@@ -41,7 +41,7 @@ public class ScriptPlayer : MonoBehaviour {
         rb.AddForce(movement * speed);
 		float angle = Vector3.SignedAngle(new Vector3(0, 1, 0), sight.transform.position - transform.position, new Vector3(0, 0, 1));
 		transform.localEulerAngles = new Vector3(0, 0, angle);
-
+		sight.GetComponent<MoveTarget>().setAngle(transform.localEulerAngles);
 		transform.position = new Vector3(transform.position.x, transform.position.y, -1f);
 	}
 
@@ -82,7 +82,6 @@ public class ScriptPlayer : MonoBehaviour {
 		var script = createdProjectile.GetComponent<ScriptLaunchedProjectile>();
 		script.rotation = transform.localEulerAngles;
 		script.direction = direction;
-		Debug.Log(createdProjectile.transform.rotation);
 		script.launch();
 		
 	}

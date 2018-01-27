@@ -46,7 +46,7 @@ public class ScriptAggro : MonoBehaviour {
 		return(aggro);
 	}
     public int reduceAggro(int subAggro){
-		addAggro(subAggro);
+		addAggro(-subAggro);
 		return(aggro);
 	}
 }
