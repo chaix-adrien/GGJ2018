@@ -18,26 +18,20 @@ public class ScriptSpawnEnemy : MonoBehaviour
         InvokeRepeating("SpawnEnemy", spawnTime, spawnTime);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
    void SpawnEnemy()
     {
         GameObject[] respawns;
         GameObject[] players;
-        float playerZ;
+        float positionZ;
         Vector3 position;
         int numberOfPlayers;
 
         // Store the list of spawnable blocks in the map
         respawns = GameObject.FindGameObjectsWithTag("EmptyFloor");
-
+        
+        positionZ = GameObject.FindGameObjectWithTag("Player").transform.position.z;
         players = GameObject.FindGameObjectsWithTag("Player");
         numberOfPlayers = players.Length;
-        playerZ = GameObject.FindGameObjectWithTag("Player").transform.position.z;
 
         // Spawn an amount of enemies (numberOfEnemy) randomly on the map
         for (int i = 0; i < numberOfEnemy * Mathf.FloorToInt(GameObject.FindGameObjectWithTag("Ball").GetComponent<ScriptAggro>().aggro / 10); i++)
@@ -72,7 +66,7 @@ public class ScriptSpawnEnemy : MonoBehaviour
                     }
                 break;
             }
-            position.z = playerZ;
+            position.z = positionZ;
             Instantiate(enemy, position, Quaternion.identity);
         }
     }
