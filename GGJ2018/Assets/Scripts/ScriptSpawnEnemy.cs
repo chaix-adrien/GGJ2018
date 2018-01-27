@@ -15,7 +15,6 @@ public class ScriptSpawnEnemy : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        // Instantiate(enemy, new Vector3(2,0,-1), Quaternion.identity);
         InvokeRepeating("SpawnEnemy", spawnTime, spawnTime);
     }
 
