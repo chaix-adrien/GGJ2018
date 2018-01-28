@@ -105,7 +105,7 @@ public class ScriptPlayer : MonoBehaviour {
 			lastShoot = Time.time;
 			Fire(inc, true);
 		}
-		if (GameObject.FindGameObjectWithTag("Ball").GetComponent<ScriptBall>().player == gameObject &&  GamePad.GetTrigger(GamePad.Trigger.LeftTrigger, gamepad) == 1 && Time.time - lastShoot >= relaodSecond) {
+		if (GameObject.FindGameObjectWithTag("Ball").GetComponent<ScriptBall>().player == gameObject &&  GamePad.GetButton(GamePad.Button.LeftShoulder, gamepad) == true && Time.time - lastShoot >= relaodSecond) {
 			lastShoot = Time.time;
 			Fire(ball, false);
 		} else if (GamePad.GetButton(GamePad.Button.LeftShoulder, gamepad) == true && Time.time - lastShoot >= relaodSecond) {
