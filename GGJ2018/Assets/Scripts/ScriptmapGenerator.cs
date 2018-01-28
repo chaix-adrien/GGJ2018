@@ -18,7 +18,6 @@ public class ScriptmapGenerator : MonoBehaviour {
 		//Delete all child object (reset map)
 		mainCamera.orthographicSize = 5f/9f*height;
 		
-		
 		//generate new map
 		for (int w = -1; w < width + 1; w++) {
 			for (int h = -1; h < height + 1; h++) {

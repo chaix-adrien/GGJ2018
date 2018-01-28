@@ -9,6 +9,8 @@ public class ScriptInc : MonoBehaviour {
 	public int resillience = 4;
 	public Transform fromPlayer = null;
 
+	public Transform impact;
+
 	void Start () {
 	
 	}
@@ -21,9 +23,12 @@ public class ScriptInc : MonoBehaviour {
 	void  OnTriggerEnter (Collider collision) {
 		if (collision.tag == "Player" && collision.gameObject.transform != fromPlayer) {
 			collision.gameObject.GetComponent<ScriptAggro>().reduceAggro(aggroAtHit);
+			var impactObj = Instantiate(impact, transform.localPosition, Quaternion.identity);
 		}
 		if (collision.tag == "Enemy") {
 			Destroy(collision.gameObject);
+			var impactObj = Instantiate(impact, transform.localPosition, Quaternion.identity);
+
 			resillience--;
 			if (resillience <= 0)
 				Destroy(gameObject);
