@@ -26,7 +26,7 @@ public class ScriptBlood : MonoBehaviour {
 			var impactObj = Instantiate(impact, transform.localPosition, Quaternion.identity);
 		}
 		if (collision.tag == "Enemy") {
-			collision.gameObject.GetComponent<ScriptEnemy>().target = fromPlayer;
+			collision.gameObject.GetComponent<ScriptEnemy>().SetTarget(fromPlayer.transform);
 			var impactObj = Instantiate(impact, transform.localPosition, Quaternion.identity);
 			resillience--;
 			if (resillience <= 0)

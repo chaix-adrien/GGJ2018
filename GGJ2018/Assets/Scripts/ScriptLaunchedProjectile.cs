@@ -26,7 +26,6 @@ public class ScriptLaunchedProjectile : MonoBehaviour {
 	}
 
 	void  OnTriggerEnter (Collider collision) {
-		Debug.Log("Colision");
 		if (deleteOnCollision && collision.tag == "FullFloor") {
 			Destroy(gameObject);
 		}

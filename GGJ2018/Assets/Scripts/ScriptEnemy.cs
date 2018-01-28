@@ -37,8 +37,7 @@ public class ScriptEnemy : MonoBehaviour
             elapsed = elapsed % typeChangeInterval;
 			if (enemyType == EnemyType.NORMAL) {
 				if (Random.value < normalTypeChangeProb) {
-					enemyType = EnemyType.TARGETING;
-					target = GetRandomPlayerByAgro(players).transform;
+					SetTarget(GetRandomPlayerByAgro(players).transform);
 				}
 			}
 			if (enemyType == EnemyType.TARGETING) {
@@ -104,7 +103,6 @@ public class ScriptEnemy : MonoBehaviour
             total += agroValues[result];
             if (total > randVal) break;
         }
-        Debug.Log(result);
         return players[result-1];
 	}
     void OnCollisionEnter(Collision collision) {
@@ -122,7 +120,11 @@ public class ScriptEnemy : MonoBehaviour
         if (enemyType == EnemyType.TARGETING) {
             Color color = target.GetComponent<ScriptPlayer>().color;
             GetComponent<SpriteRenderer>().color = color;
-        }
-        
+        }   
+    }
+
+    public void SetTarget(Transform playerTar) {
+        enemyType = EnemyType.TARGETING;
+        target = playerTar;
     }
 }
