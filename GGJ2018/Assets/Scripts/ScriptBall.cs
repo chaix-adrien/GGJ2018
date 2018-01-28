@@ -27,15 +27,16 @@ public class ScriptBall : MonoBehaviour {
 
 	// Update is called once per frame
 	void FixedUpdate () {
-				transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z + 1);
-
+		Debug.Log(transform.localPosition.x);
 		if (!launched) {
 			transform.RotateAround(player.transform.position, new Vector3(0, 0, -1), rotateSpeed * Time.deltaTime);
+			transform.localPosition = new Vector3(player.transform.localPosition.x, player.transform.localPosition.y, -2);
 		}
 	}
 
 	void  OnCollisionEnter (Collision collision) {
 		if (!player && collision.collider.tag == "Player") {
+			Debug.Log("Attach");
 			attachToPlayer(collision.gameObject);
 		}
 	}
@@ -45,8 +46,8 @@ public class ScriptBall : MonoBehaviour {
 	void attachToPlayer(GameObject playerToSet) {
 		
 		player = playerToSet;
-		transform.SetParent(player.transform);
-		transform.localPosition = new Vector3(3, 0, 0);
+		//transform.SetParent(player.transform);
+		transform.localPosition = new Vector3(3, 0, -0.5f);
 		GetComponent<Rigidbody>().isKinematic = true;
 		GetComponent<ScriptAggro>().increasing = true;
 		GetComponent<ScriptAggro>().decreasing = false;
@@ -56,9 +57,10 @@ public class ScriptBall : MonoBehaviour {
 
 	public void launch() {
 		GetComponent<Rigidbody>().isKinematic = false;
-		transform.localPosition = new Vector3(0, 0, -0.5f);
+		//transform.localPosition = new Vector3(0, 3, -0.5f);
 		player.GetComponent<ScriptPlayer>().setHoldingBall(false);
-		transform.SetParent(GameObject.FindGameObjectWithTag("Map").transform, true);
+		//transform.parent = GameObject.FindGameObjectWithTag("Map").transform;
+		transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -1f);
 		GetComponent<ScriptAggro>().decreasing = true;
 		GetComponent<ScriptAggro>().increasing = false;
 		launched = true;
