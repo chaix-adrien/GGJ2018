@@ -93,8 +93,13 @@ public class ScriptEnemy : MonoBehaviour
 	GameObject GetRandomPlayerByAgro(GameObject[] players) {
 		var agroValues = new int[players.Length];
 		var agroTotal = 0;
+        int i = 0;
 		foreach (var player in players) {
-			agroTotal += 100;
+
+            int aggro = player.GetComponent<ScriptAggro>().aggro;
+            agroValues[i] = aggro;
+            agroTotal += aggro;
+            i++;
 		}
 
         int result = 0, total = 0;
@@ -103,7 +108,7 @@ public class ScriptEnemy : MonoBehaviour
             total += agroValues[result];
             if (total > randVal) break;
         }
-        return players[result-1];
+        return players[result];
 	}
     void OnCollisionEnter(Collision collision) {
         if (collision.collider.tag == "Player") {

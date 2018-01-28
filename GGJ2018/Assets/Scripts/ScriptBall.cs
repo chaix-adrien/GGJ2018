@@ -56,9 +56,9 @@ public class ScriptBall : MonoBehaviour {
 
 	public void launch() {
 		GetComponent<Rigidbody>().isKinematic = false;
-		transform.localPosition = new Vector3(0, 0, 0);
+		transform.localPosition = new Vector3(0, 0, -0.5f);
 		player.GetComponent<ScriptPlayer>().setHoldingBall(false);
-		transform.parent = GameObject.FindGameObjectWithTag("Map").transform;
+		transform.SetParent(GameObject.FindGameObjectWithTag("Map").transform, true);
 		GetComponent<ScriptAggro>().decreasing = true;
 		GetComponent<ScriptAggro>().increasing = false;
 		launched = true;

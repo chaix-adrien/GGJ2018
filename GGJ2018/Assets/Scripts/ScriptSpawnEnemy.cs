@@ -29,7 +29,7 @@ public class ScriptSpawnEnemy : MonoBehaviour
         // Store the list of spawnable blocks in the map
         respawns = GameObject.FindGameObjectsWithTag("EmptyFloor");
         
-        positionZ = GameObject.FindGameObjectWithTag("Player").transform.position.z;
+        positionZ = GameObject.FindGameObjectWithTag("Player").transform.position.z + 0.1f;
         players = GameObject.FindGameObjectsWithTag("Player");
         numberOfPlayers = players.Length;
 

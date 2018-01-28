@@ -23,7 +23,6 @@ public class ScriptMainMenu : MonoBehaviour {
 
 	void Start() {
 		ScriptGameOptions.playerColors = playerColors;
-		Debug.Log("startMenu");
 		if (ScriptGameOptions.gameEnded) {
 			endPanel.SetActive(true);
 		}
@@ -73,7 +72,6 @@ public class ScriptMainMenu : MonoBehaviour {
 	}
 
 	void LoadLevel() {
-		Debug.Log(playersReadyCount);
 		if (playersReadyCount >= minPlayer) {
 			ScriptGameOptions.playersNumber = playersReadyCount;
 			ScriptGameOptions.gamepads = gamepadIsRegistered;
