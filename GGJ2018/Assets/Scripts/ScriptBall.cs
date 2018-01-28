@@ -27,7 +27,8 @@ public class ScriptBall : MonoBehaviour {
 
 	// Update is called once per frame
 	void FixedUpdate () {
-		
+				transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z + 1);
+
 		if (!launched) {
 			transform.RotateAround(player.transform.position, new Vector3(0, 0, -1), rotateSpeed * Time.deltaTime);
 		}

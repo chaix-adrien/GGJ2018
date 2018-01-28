@@ -21,7 +21,7 @@ public class ScriptSetupGame : MonoBehaviour {
 				newPlayer.GetComponent<ScriptPlayerHUD>().left = i % 2 == 0;
 				newPlayer.GetComponent<ScriptPlayer>().ball = newBall.transform;
 				newPlayer.GetComponent<ScriptPlayer>().gamepad = (GamePad.Index)gamepads[i];
-				newPlayer.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+				newPlayer.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
 
 			}
 		}

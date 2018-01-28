@@ -6,7 +6,7 @@ using GamepadInput;
 public class MoveTarget : MonoBehaviour {
 
   	public Transform player;
-	
+	private Vector2 direction;
 	// Use this for initialization
 	void Start () {
 		GetComponent<SpriteRenderer>().color = player.gameObject.GetComponent<ScriptPlayer>().color;
@@ -16,7 +16,11 @@ public class MoveTarget : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		Vector2 dir  = GamePad.GetAxis(GamePad.Axis.RightStick, player.gameObject.GetComponent<ScriptPlayer>().gamepad);
-		transform.localPosition = new Vector3(player.position.x + dir.x, player.position.y + dir.y, player.position.z + 0.1f);		
+		if (dir.magnitude > 0.2) {
+			direction = dir;
+		}
+			transform.localPosition = new Vector3(player.position.x + direction.x, player.position.y + direction.y, player.position.z + 0.1f);		
+		
 	}
 
 	public void setAngle(Vector3 angle) {
