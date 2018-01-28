@@ -121,9 +121,7 @@ public class ScriptEnemy : MonoBehaviour
     void Update()  {
         if (enemyType == EnemyType.TARGETING) {
             Color color = target.GetComponent<ScriptPlayer>().color;
-            
-            Debug.Log(GetComponent<Renderer>().material);
-            GetComponent<Renderer>().material.SetColor("Albedo", color);
+            GetComponent<SpriteRenderer>().color = color;
         }
         
     }
