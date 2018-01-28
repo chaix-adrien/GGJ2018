@@ -39,8 +39,6 @@ public class ScriptArrowHUD : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		var actAggro = player.GetComponent<ScriptAggro>().aggro;
-		Debug.Log("last " + lastTime);
-		Debug.Log("act " + actAggro);
 		if (Time.time - lastTime > 1) {
 			if (actAggro > lastAggro) {
 				img.color = new Color(255, 255, 255, 255);
