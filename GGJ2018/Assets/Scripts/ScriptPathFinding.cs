@@ -9,6 +9,8 @@ public class ScriptPathFinding : MonoBehaviour
     private Rigidbody rb;
     private List <float> angles;
     private float closest;
+    private Ray obstaclesRay;
+    private RaycastHit hit;
     void Start()
     {
         rb =  GetComponent<Rigidbody>();
@@ -17,10 +19,17 @@ public class ScriptPathFinding : MonoBehaviour
     {
         angles = new List<float>();
         closest = 50;
-        for(int i = -45; i < 45; i+=5)
+        for(float i = -45; i < 45; i+=5)
         {
-            if(!Physics.Raycast(rb.transform.position, new Vector3(rb.transform.rotation.x, rb.transform.rotation.y, rb.transform.rotation.z + i),raycastDistance))
+            obstaclesRay = new Ray(rb.transform.position, new Vector3(rb.transform.rotation.x, rb.transform.rotation.y, rb.transform.rotation.z + i));
+            
+            if(Physics.Raycast( obstaclesRay, out hit, raycastDistance))
             {
+                if(hit.collider.tag != "FullFloor")
+                {
+                    angles.Add(i);
+                }
+            }else{
                 angles.Add(i);
             }
         }
@@ -30,7 +39,7 @@ public class ScriptPathFinding : MonoBehaviour
             if(Mathf.Abs(angle) < Mathf.Abs(closest))
             {
                 closest = angle;
-            }
+            }                     
         }
         
         // The gameobject is oriented at the closest angle
