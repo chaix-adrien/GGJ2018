@@ -16,7 +16,7 @@ public class MoveTarget : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		Vector2 dir  = GamePad.GetAxis(GamePad.Axis.RightStick, player.gameObject.GetComponent<ScriptPlayer>().gamepad);
-		transform.localPosition = new Vector3(player.position.x + dir.x, player.position.y + dir.y, player.position.z + 0.1f);
+		transform.localPosition = new Vector3(player.position.x + dir.x, player.position.y + dir.y, player.position.z + 0.1f);		
 	}
 
 	public void setAngle(Vector3 angle) {

@@ -41,7 +41,6 @@ public class ScriptPlayer : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 		MoveController();
-		
 	}
 
 	void MoveController() {
@@ -72,8 +71,9 @@ public class ScriptPlayer : MonoBehaviour {
 		if (Input.GetKey("down"))
 			h -= 1;
 		Vector3 movement = new Vector3 (w, h, 0.0f);
-        rb.AddForce (movement * speed);
-		transform.LookAt(sight, new Vector3(0, 0, -1));
+		rb.AddForce (movement * speed);
+		float angle = Vector3.SignedAngle(new Vector3(0, 1, 0), sight.transform.position - transform.position, new Vector3(0, 0, 1));
+		transform.localEulerAngles = new Vector3(0, 0, angle);
 	}
 
 	void Fire(Transform projectile, bool Instanciate) {
