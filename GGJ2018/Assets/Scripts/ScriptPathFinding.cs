@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class ScriptPathFinding : MonoBehaviour 
 {
-    public float precisionAngle;
     public float raycastDistance;
 
     private Rigidbody rb;
@@ -12,7 +13,7 @@ public class ScriptPathFinding : MonoBehaviour
     private float closest;
     private Ray obstaclesRay;
     private RaycastHit hit;
-    private bool pathFindingNeeded;
+    public bool pathFindingNeeded = false;
     public float checkAngle;
     public float pathAngle;
 
@@ -22,8 +23,15 @@ public class ScriptPathFinding : MonoBehaviour
     }
     void FixedUpdate()
     {
+        /*
+        if(!GetComponent<ScriptPathFinding>().pathFindingNeeded)
+        {
+            
+        }       
+        
+         */
         Transform target = GetComponent<ScriptEnemy>().target;
-        float i, j;
+        float i, j, theAngle=1000;
         angles = new List<float>();
         closest = 50;
         obstaclesRay = new Ray(rb.transform.position, target.position - rb.transform.position);
@@ -66,36 +74,19 @@ public class ScriptPathFinding : MonoBehaviour
                     }
                 }
             }
+            foreach(float angle in angles)
+            {
+                if(Math.Abs(angle) < theAngle)
+                {
+                    theAngle = angle;
+                }
+            }
+            transform.rotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z + theAngle, transform.rotation.w);
+            rb.velocity = transform.right * GetComponent<ScriptEnemy>().moveSpeed;
         }else{
             pathFindingNeeded = false;
         }
 
 
-
-
-        //     if (hit.collider.tag != "FullFloor")
-        //     {
-        //         angles.Add(i);
-        //     }
-        // }else{
-        //             angles.Add(i);
-        //         }
-        //     }
-
-        //     foreach(float angle in angles)
-        //     {
-        //         if(Mathf.Abs(angle) < Mathf.Abs(closest))
-        //         {
-        //             closest = angle;
-        //         }                     
-        //     }
-
-        //     // The gameobject is oriented at the closest angle
-        //     if(closest< 0)
-        //     {
-        //         rb.transform.Rotate(0, 0, closest - precisionAngle);     
-        //     }else if(closest > 0){
-        //        rb.transform.Rotate(0, 0, closest + precisionAngle);   
-        //     }
     }
 }
