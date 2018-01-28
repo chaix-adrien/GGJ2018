@@ -101,14 +101,14 @@ public class ScriptPlayer : MonoBehaviour {
 	}
 
 	void Update() {
-		if (GamePad.GetTrigger(GamePad.Trigger.RightTrigger, gamepad) == 1 && Time.time - lastShoot >= relaodSecond) {
+		if (GamePad.GetButton(GamePad.Button.RightShoulder, gamepad) == true && Time.time - lastShoot >= relaodSecond) {
 			lastShoot = Time.time;
 			Fire(inc, true);
 		}
 		if (GameObject.FindGameObjectWithTag("Ball").GetComponent<ScriptBall>().player == gameObject &&  GamePad.GetTrigger(GamePad.Trigger.LeftTrigger, gamepad) == 1 && Time.time - lastShoot >= relaodSecond) {
 			lastShoot = Time.time;
 			Fire(ball, false);
-		} else if (GamePad.GetTrigger(GamePad.Trigger.LeftTrigger, gamepad) == 1 && Time.time - lastShoot >= relaodSecond) {
+		} else if (GamePad.GetButton(GamePad.Button.LeftShoulder, gamepad) == true && Time.time - lastShoot >= relaodSecond) {
 			lastShoot = Time.time;
 			Fire(blood, true);
 		}
