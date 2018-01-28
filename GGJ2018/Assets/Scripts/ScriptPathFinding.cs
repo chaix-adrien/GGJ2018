@@ -5,17 +5,20 @@ using UnityEngine;
 public class ScriptPathFinding : MonoBehaviour {
 
     public float precisionAngle;
+    public float raycastDistance;
     private Rigidbody rb;
    
     void FixedUpdate()
     {
+        print("FIXED UPDATE PATHFINDING");
+        rb =  GetComponent<Rigidbody>();
         List <float> angles = new List<float>();
-        Vector3 fwd = transform.TransformDirection(Vector3.forward);
         float closest = 50;
         for(int i = -45; i < 45; i+=5)
         {
-            if(!Physics.Raycast(transform.position, new Vector3(rb.transform.rotation.x, rb.transform.rotation.y, rb.transform.rotation.z + i),5))
+            if(!Physics.Raycast(rb.transform.position, new Vector3(rb.transform.rotation.x, rb.transform.rotation.y, rb.transform.rotation.z + i),raycastDistance))
             {
+                print("FREE PATH");
                 angles.Add(i);
             }
         }
@@ -31,9 +34,9 @@ public class ScriptPathFinding : MonoBehaviour {
         // The gameobject is oriented at the closest angle
         if(closest < 0)
         {
-            GetComponent<Rigidbody>().transform.Rotate(0, 0, closest - precisionAngle);     
+            rb.transform.Rotate(0, 0, closest - precisionAngle);     
         }else if(closest > 0){
-            GetComponent<Rigidbody>().transform.Rotate(0, 0, closest + precisionAngle);   
+           rb.transform.Rotate(0, 0, closest + precisionAngle);   
         }
        
 
